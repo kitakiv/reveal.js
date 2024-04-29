@@ -8,7 +8,7 @@
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+		<link rel="stylesheet" href="dist/theme/dracula.css">
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
@@ -16,8 +16,318 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section data-transition="zoom">
+					<h1>canvas</h1>
+				</section>
+				<section>
+					<section><h2>The &ltcanvas&gt element</h2>
+						<pre><code data-line-numbers data-ln-start-from="0">&ltcanvas id="MyCanvas" width="150" height="150"&gt&lt/canvas&gt</code>
+						</pre>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+							## canvas in JS
+							```js [1|2]
+							const canvas = document.getElementById("MyCanvas");
+							const ctx = canvas.getContext("2d");
+							```
+						</textarea>
+					  </section>
+				</section>
+				<section>
+					<h2>Drawing shapes with canvas</h2>
+					<ul>
+						<li>Drawing rectangles</li>
+						<li>Drawing paths</li>
+					</ul>
+				</section>
+				<section>
+					<section>
+						<h3>Drawing rectangles</h3>
+						<ul>
+							<li>fillRect(x, y, width, height)</li>
+							<li>strokeRect(x, y, width, height)</li>
+							<li>clearRect(x, y, width, height)</li>
+						</ul>
+					</section>
+					<section>
+						<h3>fillRect (x, y, width, height) </h3>
+						<pre><code data-line-numbers data-ln-start-from="0">
+							const canvas = document.getElementById("MyCanvas");
+							const ctx = canvas.getContext("2d");
+							ctx.fillStyle = "green";
+							ctx.fillRect(20, 10, 150, 100);</code></pre>
+					</section>
+					<section>
+						<h3>strokeRect(x, y, width, height) </h3>
+						<pre><code data-line-numbers data-ln-start-from="0">
+							const canvas = document.getElementById("MyCanvas");
+							const ctx = canvas.getContext("2d");
+							ctx.strokeStyle = "green";
+							ctx.strokeRect(20, 10, 160, 100);
+
+						</code></pre>
+					</section>
+					<section>
+						<h3>clearRect(x, y, width, height) </h3>
+						<pre><code data-line-numbers data-ln-start-from="0">
+const canvas = document.getElementById("canvas");
+  if (canvas.getContext) {
+    const ctx = canvas.getContext("2d");
+
+    ctx.fillRect(25, 25, 100, 100);
+    ctx.clearRect(45, 45, 60, 60);
+    ctx.strokeRect(50, 50, 50, 50);
+  }
+
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Drawing paths</h2>
+					<ul>
+						<li>beginPath() and closePath() and moveTo(x, y)</li>
+						<li>stroke() and fill()</li>
+					</ul>
+					</section>
+					<section>
+						<h2>beginPath() and closePath()</h2>
+						<h2>moveTo(x, y)</h2>
+						<span>x, y - position</span>
+					</section>
+					<section>
+						<h2>stroke() and fill()</h2>
+						<pre><code data-line-numbers data-ln-start-from="0">
+							const canvas = document.getElementById("canvas");
+							if (canvas.getContext) {
+							  const ctx = canvas.getContext("2d");
+
+							  ctx.beginPath();
+							  ctx.moveTo(75, 50);
+							  ctx.lineTo(100, 75);
+							  ctx.lineTo(100, 25);
+							  ctx.fill();
+							}
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<h2>Lines</h2>
+					<span>lineTo(x, y)</span>
+					<pre><code data-line-numbers data-ln-start-from="0">
+						const canvas = document.getElementById("canvas");
+						if (canvas.getContext) {
+						  const ctx = canvas.getContext("2d");
+					  
+						  ctx.beginPath();
+						  ctx.moveTo(25, 25);
+						  ctx.lineTo(105, 25);
+						  ctx.lineTo(25, 105);
+						  ctx.fill();
+					  
+						  ctx.beginPath();
+						  ctx.moveTo(125, 125);
+						  ctx.lineTo(125, 45);
+						  ctx.lineTo(45, 125);
+						  ctx.closePath();
+						  ctx.stroke();
+						}</code></pre>
+				</section>
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+							## Arcs
+							arc(x, y, radius, startAngle, endAngle, counterclockwise)
+						</textarea>
+					  </section>
+					  <section data-markdown>
+						<textarea data-template>
+							```js [4|5|6]
+const canvas = document.getElementById("canvas");
+if (canvas.getContext) {
+  const ctx = canvas.getContext("2d");
+  ctx.beginPath();
+  ctx.arc(50, 50, 20, (Math.PI/180)*0, (Math.PI/180)*360) 
+  ctx.fill();
+}
+							```
+						</textarea>
+					  </section>
+				</section>
+				<section>
+					<section>
+						<h2>Bezier and quadratic curves</h2>
+							<ul>
+								<li>quadraticCurveTo(cp1x, cp1y, x, y)</li>
+								<li>bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y)</li>
+								<img width="350" height="400" src="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes/canvas_curves.png" alt="">
+							</ul>
+					  </section>
+					  <section data-markdown>
+						<textarea data-template>
+							```js
+const canvas = document.getElementById("canvas");
+  if (canvas.getContext) {
+    const ctx = canvas.getContext("2d");
+	ctx.fillStyle = 'red'
+    // Cubic curves example
+    ctx.beginPath();
+    ctx.moveTo(75, 40);
+    ctx.bezierCurveTo(75, 37, 70, 25, 50, 25);
+    ctx.bezierCurveTo(20, 25, 20, 62.5, 20, 62.5);
+    ctx.bezierCurveTo(20, 80, 40, 102, 75, 120);
+    ctx.bezierCurveTo(110, 102, 130, 80, 130, 62.5);
+    ctx.bezierCurveTo(130, 62.5, 130, 25, 100, 25);
+    ctx.bezierCurveTo(85, 25, 75, 37, 75, 40);
+    ctx.fill();
+  }
+							```
+						</textarea>
+					  </section>
+					  <section data-markdown>
+						<textarea data-template>
+							## rect(x, y, width, height)
+							***
+							Before this method is executed, the moveTo() method is automatically called with the parameters (x,y)
+						</textarea>
+					  </section>
+				</section>
+				<section>
+					<h2>Applying styles and colors</h2>
+				</section>
+				<section>
+					<section>
+						<h2>Colors</h2>
+						<ul>
+							<ol>fillStyle = color</ol>
+							<ol>strokeStyle = color</ol>
+							<ol>globalAlpha = transparencyValue</ol>
+						</ul>
+						<pre><code data-line-numbers data-ln-start-from="0">
+							ctx.strokeStyle = "rgb(255 0 0 / 50%)";
+							ctx.fillStyle = "rgb(255 0 0 / 50%)";
+							ctx.fillStyle = from 0.0 to 1.0;
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Line styles</h2>
+						<ul>
+							<ol>lineWidth = value</ol>
+							<ol>lineCap = type</ol>
+							<ol>lineJoin = type</ol>
+						</ul>
+						<pre><code data-line-numbers data-ln-start-from="0">
+							ctx.lineWidth = 7;
+							ctx.lineCap = "butt/ round / square";
+							ctx.lineJoin = "round/ bevel/ miter";
+						</code></pre>
+					</section>
+					<section>
+						<pre><code data-line-numbers data-ln-start-from="0">const ctx = document.getElementById("canvas").getContext("2d");
+
+							// Draw guides
+							ctx.strokeStyle = "#09f";
+							ctx.beginPath();
+							ctx.moveTo(10, 10);
+							ctx.lineTo(140, 10);
+							ctx.moveTo(10, 140);
+							ctx.lineTo(140, 140);
+							ctx.stroke();
+						  
+							// Draw lines
+							ctx.strokeStyle = "black";
+							["butt", "round", "square"].forEach((lineCap, i) => {
+							  ctx.lineWidth = 15;
+							  ctx.lineCap = lineCap;
+							  ctx.beginPath();
+							  ctx.moveTo(25 + i * 50, 10);
+							  ctx.lineTo(25 + i * 50, 140);
+							  ctx.stroke();
+							});
+						</code></pre>
+					</section>
+					<section>
+						<pre><code data-line-numbers data-ln-start-from="0">
+							const ctx = document.getElementById("canvas").getContext("2d");
+							ctx.lineWidth = 10;
+							["round", "bevel", "miter"].forEach((lineJoin, i) => {
+							  ctx.lineJoin = lineJoin;
+							  ctx.beginPath();
+							  ctx.moveTo(-5, 5 + i * 40);
+							  ctx.lineTo(35, 45 + i * 40);
+							  ctx.lineTo(75, 5 + i * 40);
+							  ctx.lineTo(115, 45 + i * 40);
+							  ctx.lineTo(155, 5 + i * 40);
+							  ctx.stroke();
+							});
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Gradients</h2>
+						createLinearGradient(x1, y1, x2, y2)
+						<pre><code data-line-numbers data-ln-start-from="0">
+							const canvas = document.getElementById("canvas");
+							const ctx = canvas.getContext("2d");
+							const lineargradient = ctx.createLinearGradient(0, 0, 0, 150);
+							lineargradient.addColorStop(0, "white");
+							lineargradient.addColorStop(1, "black");
+							ctx.fillStyle = lineargradient
+							ctx.fillRect(0, 0, 150, 150)
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Drawing text</h2>
+						<ul>
+							<ol>fillText(text, x, y [, maxWidth])</ol>
+							<ol>strokeText(text, x, y [, maxWidth])</ol>
+							<ol>font = value</ol>
+							<ol>ctx.textAlign = 'center'</ol>
+						</ul>
+					</section>
+					<section>
+						<h3>fillText(text, x, y [, maxWidth]) font</h3>
+						<pre><code data-line-numbers data-ln-start-from="0">
+const ctx = document.getElementById("canvas").getContext("2d");
+ctx.font = "48px serif";
+ctx.fillText("Hello world", 10, 50);
+						</code></pre>
+					</section>
+					<section>
+						<h3>strokeText(text, x, y [, maxWidth])</h3>
+						<pre><code>
+							const ctx = document.getElementById("canvas").getContext("2d");
+							ctx.font = "48px serif";
+							ctx.strokeText("Hello world", 10, 50);
+						</code></pre>
+					</section>
+					<section>
+						<h3> ctx.textAlign = 'center'</h3>
+						<pre><code>
+							const ctx = document.getElementById("canvas").getContext("2d");
+							ctx.strokeRect(0,0,150,150);
+							ctx.font = "14px serif";
+							ctx.moveTo(75, 75)
+							ctx.textAlign = 'center'
+							ctx.strokeText("Hello world", 75, 50, 150, 150);
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Using images</h2>
+						<pre><code>
+const img = new Image(); // Create new img element
+img.src = "myImage.png"
+						</code></pre>
+					</section>
+				</section>
 			</div>
 		</div>
 
